@@ -316,6 +316,72 @@
   .build-slide .build-card { padding: 13px 14px; }
   .build-slide .build-arc { margin-top: 16px; }
 
+  .build-shot {
+    margin-top: 18px; width: 100%; border-radius: 14px;
+    border: 1px solid var(--line); object-fit: cover;
+    box-shadow: 0 18px 40px -20px rgba(43,29,22,0.55);
+    position: relative; z-index: 2;
+  }
+  .build-slide .build-shot {
+    margin: 12px auto 0; max-width: 460px; max-height: 150px;
+    object-fit: cover; object-position: right center;
+  }
+
+  /* ---------- Platform vision slide (10) ---------- */
+  .pack-slide { padding: 42px 56px; }
+  .pack-slide h2 { margin-top: 10px; font-size: clamp(24px, 3.4vw, 33px); }
+  .pack-slide .lead { margin-top: 8px; font-size: 15.5px; max-width: 72ch; }
+
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 18px; position: relative; z-index: 2; }
+  @media (max-width: 760px){ .duo { grid-template-columns: 1fr; } }
+  .duo .card h3 { margin-bottom: 12px; }
+  .chk { list-style: none; display: grid; gap: 8px; }
+  .chk li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--coffee); line-height: 1.4; }
+  .chk li .mk { flex: none; width: 20px; height: 20px; border-radius: 6px; display: grid; place-items: center; font-size: 11px; font-weight: 800; }
+  .chk.bad li .mk { background: rgba(154,59,47,0.12); color: #9a3b2f; }
+  .chk.good li .mk { background: rgba(47,158,125,0.16); color: var(--mint); }
+
+  .analogy { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px; position: relative; z-index: 2; }
+  @media (max-width: 760px){ .analogy { grid-template-columns: repeat(2,1fr); } }
+  .analogy .pair { background: rgba(255,255,255,0.78); border: 1px solid var(--line); border-radius: 14px; padding: 12px; text-align: center; }
+  .analogy .pair .from { font-size: 13px; font-weight: 700; color: var(--muted); }
+  .analogy .pair .arr { color: var(--amber-deep); font-weight: 800; margin: 3px 0; }
+  .analogy .pair .to { font-size: 14px; font-weight: 800; color: var(--espresso); }
+  .analogy .pair.hero { background: linear-gradient(145deg, var(--espresso), var(--coffee)); border-color: transparent; }
+  .analogy .pair.hero .from { color: var(--latte); }
+  .analogy .pair.hero .to { color: var(--amber); }
+  .analogy .pair.hero .arr { color: var(--amber); }
+
+  .metrics-4 { grid-template-columns: repeat(4,1fr); margin-top: 16px; }
+  @media (max-width: 760px){ .metrics-4 { grid-template-columns: repeat(2,1fr); } }
+  .metrics-4 .metric { padding: 14px; }
+  .metrics-4 .metric .big { font-size: 26px; }
+  .metrics-4 .metric .cap { font-size: 12.5px; margin-top: 4px; }
+
+  /* ---------- Infra / cost slide (11) ---------- */
+  .infra-slide { padding: 40px 56px; }
+  .infra-slide h2 { margin-top: 10px; font-size: clamp(24px, 3.2vw, 32px); }
+  .infra-slide .lead { margin-top: 8px; font-size: 15px; }
+  .infra-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 26px; margin-top: 18px; position: relative; z-index: 2; }
+  @media (max-width: 760px){ .infra-grid { grid-template-columns: 1fr; } }
+  .sub-h { font-size: 12.5px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--amber-deep); margin: 16px 0 8px; }
+  .sub-h:first-child { margin-top: 0; }
+  .svc-card { background: rgba(255,255,255,0.82); border: 1px solid var(--line); border-radius: 13px; padding: 11px 14px; margin-bottom: 9px; }
+  .svc-card .svc-h { font-size: 12.5px; font-weight: 800; color: var(--espresso); margin-bottom: 3px; }
+  .svc-card .svc-b { font-size: 12px; color: var(--coffee); line-height: 1.45; }
+  .svc-card .svc-b b { color: var(--amber-deep); }
+
+  .assume { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
+  .assume .a { background: rgba(255,255,255,0.8); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+  .assume .a .k { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .assume .a .v { font-size: 19px; font-weight: 800; color: var(--amber-deep); margin-top: 2px; }
+
+  .cost { width: 100%; border-collapse: collapse; margin-top: 6px; }
+  .cost td { padding: 8px 6px; font-size: 12.5px; border-bottom: 1px solid var(--line); color: var(--coffee); }
+  .cost td:last-child { text-align: right; font-weight: 700; color: var(--espresso); }
+  .cost tr.tot td { border-top: 2px solid var(--amber-deep); border-bottom: none; font-weight: 800; color: var(--espresso); }
+  .credit { background: linear-gradient(145deg, var(--mint), #25795f); color: #fff; padding: 11px; border-radius: 12px; text-align: center; font-weight: 800; font-size: 13px; margin-top: 12px; }
+
   /* ---------- Controls ---------- */
   .controls {
     position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
@@ -398,7 +464,7 @@
         <div class="name">Common <span>Context</span></div>
       </div>
       <div class="kicker"><span class="dot"></span> The Agent Alignment Layer</div>
-      <h1>A coworking space<br>for agents.</h1>
+      <h1>A coworking space<br>for agents and people.</h1>
       <p class="oneliner">Keeping <b>every agent</b> on the same page &mdash; <b>24/7</b>.</p>
       <div class="badge-row">
         <span class="badge">Shared context layer</span>
@@ -406,7 +472,7 @@
         <span class="badge">A2A interop</span>
       </div>
       <span class="wm">Common Context</span>
-      <span class="pager">01 / 09</span>
+      <span class="pager">01 / 8</span>
     </section>
 
     <!-- 02 — Problem -->
@@ -438,7 +504,7 @@
       </div>
       <div class="drift-note">⚠️ Agents act on stale or contradictory context &mdash; drift becomes divergent action.</div>
       <span class="wm">Common Context</span>
-      <span class="pager">02 / 09</span>
+      <span class="pager">02 / 8</span>
     </section>
 
     <!-- 03 — Solution -->
@@ -458,74 +524,20 @@
         </div>
       </div>
       <span class="wm">Common Context</span>
-      <span class="pager">03 / 09</span>
+      <span class="pager">03 / 8</span>
     </section>
 
-    <!-- 04 — Value -->
-    <section class="slide">
-      <div class="kicker"><span class="dot"></span> The Value</div>
-      <h2>An alignment layer for teams of<br>humans + agents.</h2>
-      <p class="lead">We capture every conversation into a governed shared memory, so agents draw from one consistent context instead of contradictory silos &mdash; preventing drift before it becomes divergent action.</p>
-      <div class="metrics">
-        <div class="metric">
-          <div class="big">1</div>
-          <div class="cap">Source of truth across every human &amp; agent &mdash; no more silos.</div>
-        </div>
-        <div class="metric">
-          <div class="big">0</div>
-          <div class="cap">Contradictions &mdash; agents stop forgetting what the team decided.</div>
-        </div>
-        <div class="metric">
-          <div class="big">24/7</div>
-          <div class="cap">Always-on coworking space &mdash; context never goes offline.</div>
-        </div>
-      </div>
-      <span class="wm">Common Context</span>
-      <span class="pager">04 / 09</span>
-    </section>
-
-    <!-- 05 — In One Line -->
+    <!-- 04 — In One Line -->
     <section class="slide quote-slide">
       <div class="kicker"><span class="dot"></span> In One Line</div>
       <p class="quote">We are the <span class="hl">agent alignment layer</span>. We keep every AI coworker on the same page.</p>
       <p class="lead">One shared room where all agent conversations are recorded, searchable, and feed back into a common memory &mdash; so your agents never contradict each other or forget what the team decided.</p>
       <p class="attrib">☕ Common Context &mdash; a coworking space for agents</p>
       <span class="wm">Common Context</span>
-      <span class="pager">05 / 09</span>
+      <span class="pager">04 / 8</span>
     </section>
 
-    <!-- 06 — What We Built -->
-    <section class="slide">
-      <div class="kicker"><span class="dot"></span> What We Built</div>
-      <h2>The meeting room &mdash; with memory underneath.</h2>
-      <div class="stack">
-        <div class="layer">
-          <div class="num">1</div>
-          <div>
-            <h3>The Meeting Room</h3>
-            <p>A self-hostable shared agent workspace where humans and agents collaborate together.</p>
-          </div>
-        </div>
-        <div class="layer">
-          <div class="num">2</div>
-          <div>
-            <h3>Persistent Shared-Context Layer</h3>
-            <p>A governed memory underneath the room that records, structures, and serves every conversation.</p>
-          </div>
-        </div>
-        <div class="layer">
-          <div class="num">3</div>
-          <div>
-            <h3>A2A Interop</h3>
-            <p>Open agent-to-agent protocol support &mdash; so <em>any</em> agent can walk in and join the room.</p>
-          </div>
-        </div>
-      </div>
-      <span class="wm">Common Context</span>
-      <span class="pager">06 / 09</span>
-    </section>
-
-    <!-- 07 — Founder Story -->
+    <!-- 05 — Founder Story -->
     <section class="slide">
       <div class="kicker"><span class="dot"></span> Founder Story</div>
       <h2>We pivoted in the middle of<br>this hackathon.</h2>
@@ -544,50 +556,35 @@
         </div>
       </div>
       <span class="wm">Common Context</span>
-      <span class="pager">07 / 09</span>
+      <span class="pager">05 / 8</span>
     </section>
 
-    <!-- 08 — How We Built It -->
+    <!-- 06 — How We Built It -->
     <section class="slide build-slide">
       <div class="kicker"><span class="dot"></span> Built with GitHub Copilot</div>
       <h2>Copilot didn't just help &mdash; it found the problem.</h2>
       <p class="lead">We started building a completely different idea. The pivot &mdash; and everything after it &mdash; came from working alongside GitHub Copilot.</p>
-      <div class="build-note">
-        <span class="spark">💡</span>
-        <p>Mapping our architecture with Copilot, we caught ourselves <b>all huddled around one screen</b>, reading the same chat. Copilot surfaced the real problem: <b>teams need shared context to stay on the same page.</b> So we pivoted &mdash; and built a GitHub for our chats.</p>
-      </div>
       <div class="build-grid">
         <div class="build-card">
           <div class="top"><h3>Spotted the problem</h3><span class="step">01</span></div>
-          <div class="svc">Architecture chat · VS Code</div>
-          <p class="desc">While planning a different idea, the huddle-around-one-screen moment revealed the gap Copilot helped us name.</p>
         </div>
         <div class="build-card">
           <div class="top"><h3>Designed the architecture</h3><span class="step">02</span></div>
-          <div class="svc">System design · data model</div>
-          <p class="desc">Copilot proposed the overarching architecture and structure for the pivoted product.</p>
         </div>
         <div class="build-card">
           <div class="top"><h3>Built the slides</h3><span class="step">03</span></div>
-          <div class="svc">Presentation · HTML/CSS</div>
-          <p class="desc">The decks you're looking at &mdash; including this one &mdash; were generated by Copilot.</p>
         </div>
         <div class="build-card">
           <div class="top"><h3>Wrote the code</h3><span class="step">04</span></div>
-          <div class="svc">Files · frontend · logic</div>
-          <p class="desc">Copilot created the files and did the coding so each of us could move on parallel tasks.</p>
         </div>
         <div class="build-card">
           <div class="top"><h3>Shipped to GitHub</h3><span class="step">05</span></div>
-          <div class="svc">Copilot Agent · git push</div>
-          <p class="desc">We used Copilot Agent to commit and push our work straight to the repo.</p>
         </div>
         <div class="build-card">
           <div class="top"><h3>Worked in parallel</h3><span class="step">06</span></div>
-          <div class="svc">One pivot · many tasks</div>
-          <p class="desc">With Copilot on each task, the whole team split up and built at once.</p>
         </div>
       </div>
+      <img class="build-shot" src="copilot-screenshot.png" alt="Building Common Context with GitHub Copilot in VS Code" />
       <div class="build-arc">
         <span class="stage"><b>Plan</b></span>
         <span class="arrow">→</span>
@@ -598,10 +595,65 @@
         <span class="stage"><b>Ship</b> · push via Agent</span>
       </div>
       <span class="wm">Common Context</span>
-      <span class="pager">08 / 09</span>
+      <span class="pager">06 / 8</span>
     </section>
 
-    <!-- 09 — CTA -->
+    <!-- 07 — Azure AI Infrastructure -->
+    <section class="slide infra-slide">
+      <div class="kicker"><span class="dot"></span> Azure AI Infrastructure</div>
+      <h2>We want to keep working on this to help more teams like ours.</h2>
+      <p class="lead">Year-1 infrastructure: <b>$35K&ndash;50K</b> &nbsp;&middot;&nbsp; Azure credit request: <b>$25K</b>.</p>
+      <div class="infra-grid">
+        <div>
+          <div class="sub-h">Architecture overview</div>
+          <div class="svc-card">
+            <div class="svc-h">Azure OpenAI</div>
+            <div class="svc-b">Planner &middot; Coding &middot; Review &middot; Testing &middot; Documentation agents</div>
+          </div>
+          <div class="svc-card">
+            <div class="svc-h">Azure AI Search</div>
+            <div class="svc-b">Workflow discovery &middot; Semantic search &middot; RAG &middot; Organizational memory</div>
+          </div>
+          <div class="svc-card">
+            <div class="svc-h">Azure Container Apps</div>
+            <div class="svc-b">Workflow execution &middot; Tool invocation &middot; Parallel agent runs</div>
+          </div>
+          <div class="svc-card">
+            <div class="svc-h">Data &amp; Collaboration</div>
+            <div class="svc-b"><b>Cosmos DB + Blob:</b> versions, history, knowledge &middot; <b>SignalR:</b> real-time multi-user editing</div>
+          </div>
+          <div class="svc-card">
+            <div class="svc-h">Observability</div>
+            <div class="svc-b">Cost analytics &middot; Reliability &middot; Evaluation framework</div>
+          </div>
+        </div>
+        <div>
+          <div class="sub-h">Usage assumptions (Year 1)</div>
+          <div class="assume">
+            <div class="a"><div class="k">Registered Users</div><div class="v">1,000</div></div>
+            <div class="a"><div class="k">Weekly Active</div><div class="v">200</div></div>
+            <div class="a"><div class="k">Workflow Executions</div><div class="v">25K</div></div>
+            <div class="a"><div class="k">Agent Invocations</div><div class="v">1.25M</div></div>
+            <div class="a"><div class="k">Stored Versions</div><div class="v">100K</div></div>
+            <div class="a"><div class="k">Collab Events</div><div class="v">50K</div></div>
+          </div>
+          <div class="sub-h">Cost breakdown</div>
+          <table class="cost">
+            <tr><td>Azure OpenAI</td><td>$15K&ndash;25K</td></tr>
+            <tr><td>Workflow Compute</td><td>$5K&ndash;10K</td></tr>
+            <tr><td>AI Search &amp; Retrieval</td><td>$3K&ndash;5K</td></tr>
+            <tr><td>Collaboration Infrastructure</td><td>$2K&ndash;4K</td></tr>
+            <tr><td>Storage &amp; Monitoring</td><td>$3K&ndash;6K</td></tr>
+            <tr class="tot"><td>Total estimated spend</td><td>$35K&ndash;50K</td></tr>
+          </table>
+          <div class="credit">Requested Azure Credits: $25K</div>
+        </div>
+      </div>
+      <span class="wm">Common Context</span>
+      <span class="pager">07 / 8</span>
+    </section>
+
+    <!-- 08 — CTA -->
     <section class="slide cta-slide">
       <div class="steam"></div>
       <div class="logo">
@@ -617,7 +669,7 @@
       </div>
       <p class="tagfoot">Shared context layer &bull; A2A interop &bull; Self-hostable &bull; Always on</p>
       <span class="wm">Common Context</span>
-      <span class="pager">09 / 09</span>
+      <span class="pager">08 / 8</span>
     </section>
 
   </div>
