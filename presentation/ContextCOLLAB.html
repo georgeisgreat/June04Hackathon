@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Common Context — Pitch Deck</title>
+<style>
+  :root {
+    --espresso: #2b1d16;
+    --coffee: #4a2f23;
+    --crema: #f3e9dd;
+    --foam: #fbf6ef;
+    --amber: #e09f3e;
+    --amber-deep: #c97f1a;
+    --latte: #d9b48f;
+    --mint: #2f9e7d;
+    --ink: #1c1410;
+    --muted: #8a766a;
+    --line: rgba(74, 47, 35, 0.14);
+    --shadow: 0 30px 70px -30px rgba(43, 29, 22, 0.55);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { height: 100%; }
+
+  body {
+    font-family: "Segoe UI", Inter, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(224,159,62,0.18), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(47,158,125,0.14), transparent 55%),
+      linear-gradient(160deg, #1a120d 0%, #241a13 100%);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px 96px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .deck {
+    width: min(1040px, 100%);
+    position: relative;
+  }
+
+  .slide {
+    display: none;
+    background: linear-gradient(180deg, var(--foam) 0%, var(--crema) 100%);
+    border-radius: 28px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255,255,255,0.5);
+    min-height: 600px;
+    padding: 56px 64px;
+    position: relative;
+    overflow: hidden;
+    animation: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .slide.active { display: flex; flex-direction: column; }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px) scale(0.992); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .slide::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(74,47,35,0.05) 1px, transparent 1px);
+    background-size: 22px 22px;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--amber-deep);
+    background: rgba(224,159,62,0.12);
+    border: 1px solid rgba(224,159,62,0.32);
+    padding: 7px 14px;
+    border-radius: 999px;
+    width: fit-content;
+    position: relative;
+    z-index: 2;
+  }
+  .kicker .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 0 4px rgba(224,159,62,0.18); }
+
+  .slide h1 {
+    font-size: clamp(40px, 6vw, 68px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--espresso);
+    position: relative; z-index: 2;
+  }
+  .slide h2 {
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    color: var(--espresso);
+    margin-top: 18px;
+    position: relative; z-index: 2;
+  }
+  .lead {
+    font-size: clamp(17px, 2vw, 21px);
+    color: var(--coffee);
+    line-height: 1.55;
+    max-width: 60ch;
+    position: relative; z-index: 2;
+  }
+
+  .spacer { flex: 1; }
+
+  /* ---------- Title slide ---------- */
+  .title-slide { justify-content: center; align-items: flex-start; }
+  .logo {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 26px; position: relative; z-index: 2;
+  }
+  .logo .cup {
+    width: 58px; height: 58px; border-radius: 16px;
+    background: linear-gradient(145deg, var(--amber), var(--amber-deep));
+    display: grid; place-items: center;
+    box-shadow: 0 14px 30px -10px rgba(201,127,26,0.7);
+    font-size: 30px;
+  }
+  .logo .name { font-size: 26px; font-weight: 800; letter-spacing: -0.01em; color: var(--espresso); }
+  .logo .name span { color: var(--amber-deep); }
+
+  .oneliner {
+    margin-top: 28px;
+    font-size: clamp(20px, 2.6vw, 27px);
+    line-height: 1.4;
+    color: var(--coffee);
+    max-width: 24ch;
+    font-weight: 600;
+    position: relative; z-index: 2;
+  }
+  .oneliner b { color: var(--espresso); }
+  .badge-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 34px; position: relative; z-index: 2; }
+  .badge {
+    font-size: 13px; font-weight: 600; color: var(--coffee);
+    background: rgba(255,255,255,0.7);
+    border: 1px solid var(--line);
+    padding: 9px 15px; border-radius: 999px;
+  }
+  .steam {
+    position: absolute; right: -40px; top: -40px; width: 360px; height: 360px;
+    background: radial-gradient(circle at center, rgba(224,159,62,0.35), transparent 65%);
+    filter: blur(8px); z-index: 1;
+  }
+
+  /* ---------- Content building blocks ---------- */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 30px; position: relative; z-index: 2; }
+  @media (max-width: 760px) { .two-col { grid-template-columns: 1fr; } }
+
+  .card {
+    background: rgba(255,255,255,0.78);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 22px 22px;
+    backdrop-filter: blur(4px);
+  }
+  .card h3 { font-size: 17px; color: var(--espresso); margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+  .card p { font-size: 15px; color: var(--coffee); line-height: 1.5; }
+  .card .ico {
+    width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center;
+    background: rgba(224,159,62,0.16); font-size: 16px; flex: none;
+  }
+
+  ul.points { list-style: none; margin-top: 26px; display: grid; gap: 16px; position: relative; z-index: 2; }
+  ul.points li { display: flex; gap: 14px; align-items: flex-start; font-size: clamp(16px,1.9vw,19px); color: var(--coffee); line-height: 1.5; max-width: 64ch; }
+  ul.points li .mk {
+    flex: none; width: 28px; height: 28px; border-radius: 8px; margin-top: 2px;
+    display: grid; place-items: center; font-size: 15px;
+    background: linear-gradient(145deg, rgba(224,159,62,0.22), rgba(201,127,26,0.16));
+    color: var(--amber-deep); font-weight: 800;
+  }
+  ul.points li b { color: var(--espresso); }
+
+  /* Problem: silos visual */
+  .silos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 30px; position: relative; z-index: 2; }
+  @media (max-width: 760px){ .silos { grid-template-columns: repeat(2,1fr);} }
+  .silo {
+    background: rgba(255,255,255,0.7); border: 1px dashed rgba(74,47,35,0.3);
+    border-radius: 16px; padding: 18px 16px; text-align: center;
+  }
+  .silo .face { font-size: 26px; }
+  .silo .label { font-size: 13px; font-weight: 700; color: var(--espresso); margin-top: 6px; }
+  .silo .sub { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
+  .drift-note {
+    margin-top: 22px; font-size: 15px; color: #9a3b2f; font-weight: 600;
+    background: rgba(154,59,47,0.08); border: 1px solid rgba(154,59,47,0.2);
+    border-radius: 12px; padding: 12px 16px; width: fit-content; position: relative; z-index: 2;
+  }
+
+  /* Solution: shared room visual */
+  .room {
+    margin-top: 28px; position: relative; z-index: 2;
+    background: linear-gradient(160deg, rgba(47,158,125,0.1), rgba(224,159,62,0.08));
+    border: 1px solid var(--line); border-radius: 20px; padding: 26px;
+  }
+  .room .ring { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .node {
+    background: #fff; border: 1px solid var(--line); border-radius: 14px;
+    padding: 12px 16px; font-size: 14px; font-weight: 700; color: var(--espresso);
+    display: flex; align-items: center; gap: 8px; box-shadow: 0 8px 18px -12px rgba(43,29,22,0.4);
+  }
+  .node small { display:block; font-weight: 500; color: var(--muted); font-size: 11px; }
+  .core {
+    margin: 18px auto 0; max-width: 520px; text-align: center;
+    background: linear-gradient(145deg, var(--espresso), var(--coffee));
+    color: var(--foam); border-radius: 16px; padding: 16px 18px;
+  }
+  .core b { color: var(--amber); }
+  .core .t { font-size: 15px; line-height: 1.5; }
+
+  /* Value metrics */
+  .metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-top: 30px; position: relative; z-index:2; }
+  @media (max-width: 760px){ .metrics { grid-template-columns: 1fr; } }
+  .metric { background: rgba(255,255,255,0.8); border:1px solid var(--line); border-radius:16px; padding: 20px; }
+  .metric .big { font-size: 30px; font-weight: 800; color: var(--amber-deep); letter-spacing:-0.02em; }
+  .metric .cap { font-size: 14px; color: var(--coffee); margin-top: 6px; line-height: 1.45; }
+
+  /* Architecture diagram */
+  .arch {
+    margin-top: 26px; position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: center; gap: 0;
+  }
+  .arch .row { display: flex; justify-content: center; align-items: stretch; gap: 16px; flex-wrap: wrap; }
+  .arch .box {
+    background: #fff; border: 1px solid var(--line); border-radius: 14px;
+    padding: 13px 18px; box-shadow: 0 8px 18px -12px rgba(43,29,22,0.4);
+    text-align: center; min-width: 150px;
+  }
+  .arch .box .t { font-size: 14px; font-weight: 800; color: var(--espresso); }
+  .arch .box .s { font-size: 11.5px; color: var(--muted); margin-top: 3px; line-height: 1.35; }
+  .arch .box.entry {
+    background: linear-gradient(145deg, var(--espresso), var(--coffee));
+    min-width: 320px; text-align: left;
+  }
+  .arch .box.entry .t { color: var(--foam); }
+  .arch .box.entry .s { color: var(--latte); font-family: "Consolas","SFMono-Regular",monospace; }
+  .arch .box.entry .pill {
+    display:inline-block; margin-top:8px; font-size:10.5px; font-weight:700; letter-spacing:.04em;
+    color: var(--amber); background: rgba(224,159,62,0.16);
+    border:1px solid rgba(224,159,62,0.4); border-radius:999px; padding:3px 10px;
+  }
+  .arch .box.svc .ico { font-size: 16px; margin-bottom: 2px; }
+  .arch .conn { width: 2px; height: 20px; background: linear-gradient(var(--amber-deep), var(--latte)); }
+  .arch .lbl { font-size: 11px; font-weight: 700; color: var(--amber-deep); letter-spacing:.05em; text-transform: uppercase; padding: 4px 0; }
+  .arch .triplet { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; width: 100%; max-width: 760px; }
+  @media (max-width: 760px){ .arch .triplet { grid-template-columns: 1fr; } }
+  .arch .gov { display: flex; flex-direction: column; align-items: center; gap: 0; width: 100%; max-width: 760px; }
+  .arch .gov .box { width: 100%; max-width: 620px; }
+
+  /* Pull quote */
+  .quote-slide { justify-content: center; }
+  .quote {
+    font-size: clamp(26px, 3.6vw, 40px); line-height: 1.28; color: var(--espresso);
+    font-weight: 700; letter-spacing: -0.015em; max-width: 22ch; position: relative; z-index: 2;
+  }
+  .quote .hl { background: linear-gradient(180deg, transparent 60%, rgba(224,159,62,0.4) 60%); }
+  .attrib { margin-top: 26px; font-size: 15px; color: var(--muted); font-weight: 600; position: relative; z-index:2; }
+
+  /* Founder story timeline */
+  .timeline { margin-top: 30px; display: grid; gap: 0; position: relative; z-index: 2; }
+  .step { display: grid; grid-template-columns: 150px 1fr; gap: 20px; padding: 16px 0; border-top: 1px solid var(--line); }
+  .step:first-child { border-top: none; }
+  .step .when { font-size: 13px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--amber-deep); padding-top: 2px; }
+  .step .what { font-size: 16px; color: var(--coffee); line-height: 1.5; }
+  .step .what b { color: var(--espresso); }
+  @media (max-width: 640px){ .step { grid-template-columns: 1fr; gap: 6px; } }
+
+  /* What / product */
+  .stack { margin-top: 28px; display: grid; gap: 14px; position: relative; z-index: 2; }
+  .layer {
+    display: flex; align-items: center; gap: 18px;
+    background: rgba(255,255,255,0.82); border: 1px solid var(--line);
+    border-radius: 16px; padding: 18px 22px;
+  }
+  .layer .num {
+    width: 40px; height: 40px; flex: none; border-radius: 12px;
+    background: linear-gradient(145deg, var(--amber), var(--amber-deep));
+    color: #fff; font-weight: 800; display: grid; place-items: center; font-size: 17px;
+  }
+  .layer h3 { font-size: 17px; color: var(--espresso); }
+  .layer p { font-size: 14px; color: var(--coffee); margin-top: 3px; line-height: 1.45; }
+
+  /* CTA */
+  .cta-slide { justify-content: center; align-items: flex-start; }
+  .cta-line { margin-top: 22px; font-size: clamp(18px,2.2vw,24px); color: var(--coffee); line-height: 1.5; max-width: 40ch; position: relative; z-index:2; }
+  .cta-row { display:flex; gap: 14px; flex-wrap: wrap; margin-top: 32px; position: relative; z-index:2; }
+  .btn {
+    padding: 14px 24px; border-radius: 12px; font-size: 15px; font-weight: 700;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 9px;
+  }
+  .btn.primary { background: linear-gradient(145deg, var(--amber), var(--amber-deep)); color: #fff; box-shadow: 0 16px 30px -14px rgba(201,127,26,0.8); }
+  .btn.ghost { background: rgba(255,255,255,0.7); color: var(--espresso); border: 1px solid var(--line); }
+
+  .tagfoot { margin-top: 30px; font-size: 14px; color: var(--muted); position: relative; z-index: 2; }
+
+  /* ---------- Controls ---------- */
+  .controls {
+    position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 14px;
+    background: rgba(28,20,16,0.78); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 9px 14px; border-radius: 999px; z-index: 50;
+  }
+  .controls button {
+    border: none; cursor: pointer; width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(255,255,255,0.1); color: var(--foam); font-size: 17px;
+    display: grid; place-items: center; transition: background 0.2s, transform 0.15s;
+  }
+  .controls button:hover { background: rgba(224,159,62,0.85); transform: translateY(-1px); }
+  .controls .count { color: var(--crema); font-size: 13px; font-weight: 600; min-width: 56px; text-align: center; letter-spacing: 0.04em; }
+
+  .progress {
+    position: fixed; top: 0; left: 0; height: 4px; z-index: 60;
+    background: linear-gradient(90deg, var(--amber), var(--amber-deep));
+    transition: width 0.35s ease; box-shadow: 0 0 12px rgba(224,159,62,0.6);
+  }
+
+  .pager { position: absolute; bottom: 22px; right: 28px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: var(--muted); z-index: 3; }
+  .wm { position: absolute; bottom: 22px; left: 28px; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--latte); z-index: 3; }
+
+  @media (max-width: 600px){
+    .slide { padding: 40px 26px; min-height: 560px; }
+  }
+
+  /* ---------- Print / PDF export ----------
+     "Print -> Save as PDF" outputs ALL slides, one per page,
+     in 16:9 with backgrounds/colors preserved.            */
+  @media print {
+    @page { size: 1280px 720px; margin: 0; }
+    html, body {
+      background: #fff !important;
+      display: block !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      height: auto !important;
+    }
+    .controls, .progress { display: none !important; }
+    .deck { width: 1280px !important; margin: 0 !important; }
+    .slide {
+      display: flex !important;
+      flex-direction: column;
+      width: 1280px !important;
+      height: 720px !important;
+      min-height: 720px !important;
+      border: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      animation: none !important;
+      overflow: hidden;
+      page-break-after: always;
+      break-after: page;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .slide:last-child { page-break-after: auto; break-after: auto; }
+    .title-slide, .quote-slide, .cta-slide { justify-content: center; }
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="deck">
+
+  <!-- 1. TITLE -->
+  <section class="slide title-slide active">
+    <div class="steam"></div>
+    <div class="logo">
+      <div class="cup">&#9749;</div>
+      <div class="name">Common <span>Context</span></div>
+    </div>
+    <div class="kicker"><span class="dot"></span> The Agent Alignment Layer</div>
+    <h1>A coworking space<br/>for agents.</h1>
+    <p class="oneliner">Keeping everyone on the same page. Keeping <b>every agent</b> on the same page &mdash; <b>24/7</b>.</p>
+    <div class="badge-row">
+      <span class="badge">Shared context layer</span>
+      <span class="badge">Self-hostable</span>
+      <span class="badge">A2A interop</span>
+    </div>
+    <div class="wm">Common Context</div>
+    <div class="pager">01 / 09</div>
+  </section>
+
+  <!-- 2. PROBLEM -->
+  <section class="slide">
+    <div class="kicker"><span class="dot"></span> The Problem</div>
+    <h2>Everyone drifts out of sync.</h2>
+    <p class="lead" style="margin-top:14px;">In multi-agent and multi-human teams, each conversation with an agent happens in a silo. Context, decisions, and corrections made in one chat never re[...]
+
+    <div class="silos">
+      <div class="silo"><div class="face">&#128104;&#8205;&#128187;</div><div class="label">Human &times; Agent A</div><div class="sub">Decides on Plan A</div></div>
+      <div class="silo"><div class="face">&#128105;&#8205;&#128188;</div><div class="label">Human &times; Agent B</div><div class="sub">Never hears about it</div></div>
+      <div class="silo"><div class="face">&#129302;</div><div class="label">Agent &times; Agent</div><div class="sub">Acts on stale context</div></div>
+      <div class="silo"><div class="face">&#128229;</div><div class="label">The Team</div><div class="sub">Shared truth fragments</div></div>
+    </div>
+
+    <div class="drift-note">&#9888;&#65039; Agents act on stale or contradictory context &mdash; drift becomes divergent action.</div>
+    <div class="wm">Common Context</div>
+    <div class="pager">02 / 09</div>
+  </section>
+
+  <!-- 3. SOLUTION -->
+  <section class="slide">
+    <div class="kicker"><span class="dot"></span> The Solution</div>
+    <h2>One shared room. One common context.</h2>
+    <p class="lead" style="margin-top:14px;">A shared, persistent workspace where every human&ndash;agent and agent&ndash;agent conversation is recorded into one common context layer &mdash; so e[...]
+
+    <div class="room">
+      <div class="ring">
+        <div class="node">&#128104;&#8205;&#128187; Human <small>joins the room</small></div>
+        <div class="node">&#129302; Agent A <small>joins the room</small></div>
+        <div class="node">&#129302; Agent B <small>joins the room</small></div>
+        <div class="node">&#128105;&#8205;&#128188; Human <small>joins the room</small></div>
+      </div>
+      <div class="core">
+        <div class="t">&#11015;&#65039; Every conversation flows into a <b>governed shared memory</b> &mdash; searchable, persistent, and fed back to all participants.</div>
+      </div>
+    </div>
+    <div class="wm">Common Context</div>
+    <div class="pager">03 / 09</div>
+  </section>
+
+  <!-- 4. VALUE -->
+  <section class="slide">
+    <div class="kicker"><span class="dot"></span> The Value</div>
+    <h2>An alignment layer for teams of<br/>humans + agents.</h2>
+    <p class="lead" style="margin-top:14px;">We capture every conversation into a governed shared memory, so agents draw from one consistent context instead of contradictory silos &mdash; prevent[...]
+
+    <div class="metrics">
+      <div class="metric"><div class="big">1</div><div class="cap">Source of truth across every human &amp; agent &mdash; no more silos.</div></div>
+      <div class="metric"><div class="big">0</div><div class="cap">Contradictions &mdash; agents stop forgetting what the team decided.</div></div>
+      <div class="metric"><div class="big">24/7</div><div class="cap">Always-on coworking space &mdash; context never goes offline.</div></div>
+    </div>
+    <div class="wm">Common Context</div>
+    <div class="pager">04 / 09</div>
+  </section>
+
+  <!-- 5. PITCH / POSITIONING (pull quote) -->
+  <section class="slide quote-slide">
+    <div class="steam" style="left:-60px; right:auto; bottom:-40px; top:auto;"></div>
+    <div class="kicker"><span class="dot"></span> In One Line</div>
+    <p class="quote" style="margin-top:20px;">We are the <span class="hl">agent alignment layer.</span> We keep every AI coworker on the same page.</p>
+    <p class="lead" style="margin-top:22px;">One shared room where all agent conversations are recorded, searchable, and feed back into a common memory &mdash; so your agents never contradict eac[...]
+    <div class="attrib">&#9749; Common Context &mdash; a coworking space for agents</div>
+    <div class="wm">Common Context</div>
+    <div class="pager">05 / 09</div>
+  </section>
+
+  <!-- 6. WHAT WE BUILT -->
+  <section class="slide">
+    <div class="kicker"><span class="dot"></span> What We Built</div>
+    <h2>The meeting room &mdash; with memory underneath.</h2>
+
+    <div class="stack">
+      <div class="layer">
+        <div class="num">1</div>
+        <div><h3>The Meeting Room</h3><p>A self-hostable shared agent workspace where humans and agents collaborate together.</p></div>
+      </div>
+      <div class="layer">
+        <div class="num">2</div>
+        <div><h3>Persistent Shared-Context Layer</h3><p>A governed memory underneath the room that records, structures, and serves every conversation.</p></div>
+      </div>
+      <div class="layer">
+        <div class="num">3</div>
+        <div><h3>A2A Interop</h3><p>Open agent-to-agent protocol support &mdash; so <em>any</em> agent can walk in and join the room.</p></div>
+      </div>
+    </div>
+    <div class="wm">Common Context</div>
+    <div class="pager">06 / 09</div>
+  </section>
+
+  <!-- 7. ARCHITECTURE -->
+  <section class="slide">
+    <div class="kicker"><span class="dot"></span> Under the Hood</div>
+    <h2>Built on Azure &mdash; secure,<br/>governed, always on.</h2>
+
+    <div class="arch">
+      <div class="box entry">
+        <div class="t">Browser &rarr; Azure Static Web Apps (Next.js)</div>
+        <div class="s">/api/chat &middot; private | shared | summarize | pull-context</div>
+        <div class="pill">Managed Identity</div>
+      </div>
+
+      <div class="conn"></div>
+      <div class="lbl">Identity-scoped calls</div>
+      <div class="conn"></div>
+
+      <div class="triplet">
+        <div class="box svc"><div class="ico">&#129302;</div><div class="t">Azure OpenAI</div><div class="s">gpt-4o, o3</div></div>
+        <div class="box svc"><div class="ico">&#128225;</div><div class="t">Azure Web PubSub</div><div class="s">shared room channels</div></div>
+        <div class="box svc"><div class="ico">&#128273;</div><div class="t">Azure Key Vault</div><div class="s">all secrets</div></div>
+      </div>
+
+      <div class="conn"></div>
+
+      <div class="triplet" style="max-width:520px;">
+        <div class="box svc"><div class="ico">&#128269;</div><div class="t">Azure AI Search</div><div class="s">&larr; semantic recall</div></div>
+        <div class="box svc"><div class="ico">&#128451;</div><div class="t">Cosmos DB</div><div class="s">per-room shared history</div></div>
+        <div class="box svc"><div class="ico">&#128272;</div><div class="t">AI Content Safety</div><div class="s">Purview labels + App Insights</div></div>
+      </div>
+
+      <div class="conn"></div>
+
+      <div class="gov">
+        <div class="box svc"><div class="ico">&#127970;</div><div class="t">Microsoft Entra ID</div><div class="s">SSO &middot; groups &rarr; rooms</div></div>
+      </div>
+    </div>
+
+    <div class="wm">Common Context</div>
+    <div class="pager">07 / 09</div>
+  </section>
+
+  <!-- 8. FOUNDER STORY -->
+  <section class="slide">
+    <div class="kicker"><span class="dot"></span> Founder Story</div>
+    <h2>We pivoted in the middle of<br/>this hackathon.</h2>
+
+    <div class="timeline">
+      <div class="step">
+        <div class="when">The Spark</div>
+        <div class="what">We kept watching teams of humans and agents <b>talk past each other</b> &mdash; the same problem we were living in real time, right here.</div>
+      </div>
+      <div class="step">
+        <div class="when">The Pivot</div>
+        <div class="what">Mid-hackathon, we threw out our original idea and built the thing we actually needed: <b>a shared room where every agent stays aligned.</b></div>
+      </div>
+      <div class="step">
+        <div class="when">Today</div>
+        <div class="what">A working, self-hostable agent workspace with a shared-context layer and <b>A2A interop</b> &mdash; agents join, talk, and stay on the same page.</div>
+      </div>
+    </div>
+    <div class="wm">Common Context</div>
+    <div class="pager">08 / 09</div>
+  </section>
+
+  <!-- 8. CTA -->
+  <section class="slide cta-slide">
+    <div class="steam"></div>
+    <div class="logo">
+      <div class="cup">&#9749;</div>
+      <div class="name">Common <span>Context</span></div>
+    </div>
+    <div class="kicker"><span class="dot"></span> Pull Up a Chair</div>
+    <h1 style="font-size:clamp(34px,5vw,56px);">Keep every agent<br/>on the same page.</h1>
+    <p class="cta-line">A coworking space for agents and people &mdash; open 24/7. Bring your agents. We'll keep them aligned.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="#">&#128231; Get early access</a>
+      <a class="btn ghost" href="#">&#128193; Self-host the room</a>
+    </div>
+    <div class="tagfoot">Shared context layer &bull; A2A interop &bull; Self-hostable &bull; Always on</div>
+    <div class="wm">Common Context</div>
+    <div class="pager">09 / 09</div>
+  </section>
+
+</div>
+
+<!-- Controls -->
+<div class="controls">
+  <button id="prev" aria-label="Previous slide">&#8592;</button>
+  <span class="count" id="count">1 / 8</span>
+  <button id="next" aria-label="Next slide">&#8594;</button>
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  let idx = 0;
+
+  const countEl = document.getElementById('count');
+  const progress = document.getElementById('progress');
+
+  function show(n) {
+    idx = Math.max(0, Math.min(total - 1, n));
+    slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+    countEl.textContent = (idx + 1) + ' / ' + total;
+    progress.style.width = ((idx + 1) / total * 100) + '%';
+  }
+
+  document.getElementById('next').addEventListener('click', () => show(idx + 1));
+  document.getElementById('prev').addEventListener('click', () => show(idx - 1));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); show(idx + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(idx - 1); }
+    else if (e.key === 'Home') { show(0); }
+    else if (e.key === 'End') { show(total - 1); }
+  });
+
+  // Swipe support
+  let startX = null;
+  document.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', (e) => {
+    if (startX === null) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 50) show(idx + (dx < 0 ? 1 : -1));
+    startX = null;
+  });
+
+  // For PDF export: pressing "p" or adding ?print to the URL reveals all slides
+  // so the browser's Print dialog renders the full deck.
+  if (location.search.includes('print')) {
+    document.querySelectorAll('.slide').forEach(s => s.classList.add('active'));
+  }
+
+  show(0);
+</script>
+</body>
+</html>
