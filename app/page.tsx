@@ -54,7 +54,10 @@ export default function Home() {
   const channelRef = useRef<any>(null);
 
   const selectedCount = privateMessages.filter((message) => message.selected).length;
-  const inviteLink = origin ? `${origin}/?room=${encodeURIComponent(room)}&user=Emily` : "";
+  const inviteUser = userName.toLowerCase() === "emily" ? "Shreyas" : "Emily";
+  const inviteLink = origin
+    ? `${origin}/?room=${encodeURIComponent(room)}&user=${encodeURIComponent(inviteUser)}&shared=1`
+    : "";
 
   const showToast = useCallback((message: string, tone: ToastState["tone"] = "success") => {
     const nextToast = { id: id("toast"), message, tone };
@@ -89,8 +92,10 @@ export default function Home() {
     const params = new URLSearchParams(window.location.search);
     const nextRoom = params.get("room") || "demo-room";
     const nextUser = params.get("user") || "Shreyas";
+    const shouldOpenShared = params.get("shared") === "1";
     setRoom(nextRoom);
     setUserName(nextUser);
+    setSharedOpen(shouldOpenShared);
     setOrigin(window.location.origin);
     setSharedMessages(seedSharedMessages(nextRoom));
   }, []);
@@ -113,7 +118,17 @@ export default function Home() {
     const handler = (message: { data: unknown }) => {
       if (!active) return;
       const data = message.data as SharedMessage;
-      if (data?.id) addSharedMessage(data);
+      if (!data?.id) return;
+      addSharedMessage(data);
+
+      if (
+        data.kind === "system" &&
+        data.source?.label === "collaboration-started" &&
+        data.author !== userName
+      ) {
+        setSharedOpen(true);
+        showToast(`${data.author} opened the shared context branch.`, "info");
+      }
     };
 
     channel.subscribe("shared-message", handler).then(() => {
@@ -358,10 +373,22 @@ export default function Home() {
     );
   };
 
-  const startSharedChat = () => {
+  const startSharedChat = async () => {
     setCollaboratorOpen(false);
     setSharedOpen(true);
-    showToast(`Shared chat started with ${collaboratorName}.`);
+    await publishSharedMessage({
+      id: id("shared-started"),
+      room,
+      author: userName,
+      content: `${userName} opened the shared context branch for this room.`,
+      kind: "system",
+      timestamp: new Date().toISOString(),
+      source: {
+        from: "shared",
+        label: "collaboration-started",
+      },
+    });
+    showToast(`Shared context branch opened with ${collaboratorName}.`);
   };
 
   const copyInvite = async () => {
@@ -411,6 +438,8 @@ export default function Home() {
       <CollaboratorModal
         open={collaboratorOpen}
         inviteLink={inviteLink}
+        userName={userName}
+        collaboratorName={collaboratorName}
         onClose={() => setCollaboratorOpen(false)}
         onStart={startSharedChat}
         onCopyInvite={copyInvite}
