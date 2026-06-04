@@ -52,6 +52,7 @@ export default function Home() {
 
   const ablyRef = useRef<ReturnType<typeof createAblyClient>>(null);
   const channelRef = useRef<any>(null);
+  const localChannelRef = useRef<BroadcastChannel | null>(null);
 
   const selectedCount = privateMessages.filter((message) => message.selected).length;
   const inviteUser = userName.toLowerCase() === "emily" ? "Shreyas" : "Emily";
@@ -77,6 +78,7 @@ export default function Home() {
   const publishSharedMessage = useCallback(
     async (message: SharedMessage) => {
       addSharedMessage(message);
+      localChannelRef.current?.postMessage(message);
       if (!channelRef.current) return;
 
       try {
@@ -88,17 +90,49 @@ export default function Home() {
     [addSharedMessage, showToast],
   );
 
+  const handleIncomingSharedMessage = useCallback(
+    (message: SharedMessage) => {
+      if (!message?.id) return;
+      addSharedMessage(message);
+
+      if (
+        message.kind === "system" &&
+        message.source?.label === "collaboration-started" &&
+        message.author !== userName
+      ) {
+        setSharedOpen(true);
+        showToast(`${message.author} opened the shared context branch.`, "info");
+      }
+    },
+    [addSharedMessage, showToast, userName],
+  );
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const nextRoom = params.get("room") || "demo-room";
     const nextUser = params.get("user") || "Shreyas";
-    const shouldOpenShared = params.get("shared") === "1";
+    const shouldOpenShared = params.get("shared") === "1" || nextUser.toLowerCase() === "emily";
     setRoom(nextRoom);
     setUserName(nextUser);
     setSharedOpen(shouldOpenShared);
     setOrigin(window.location.origin);
     setSharedMessages(seedSharedMessages(nextRoom));
   }, []);
+
+  useEffect(() => {
+    if (typeof BroadcastChannel === "undefined") return;
+
+    const localChannel = new BroadcastChannel(getChannelName(room));
+    localChannelRef.current = localChannel;
+    localChannel.onmessage = (event) => {
+      handleIncomingSharedMessage(event.data as SharedMessage);
+    };
+
+    return () => {
+      localChannel.close();
+      localChannelRef.current = null;
+    };
+  }, [handleIncomingSharedMessage, room]);
 
   useEffect(() => {
     if (!hasAblyKey()) {
@@ -118,17 +152,7 @@ export default function Home() {
     const handler = (message: { data: unknown }) => {
       if (!active) return;
       const data = message.data as SharedMessage;
-      if (!data?.id) return;
-      addSharedMessage(data);
-
-      if (
-        data.kind === "system" &&
-        data.source?.label === "collaboration-started" &&
-        data.author !== userName
-      ) {
-        setSharedOpen(true);
-        showToast(`${data.author} opened the shared context branch.`, "info");
-      }
+      handleIncomingSharedMessage(data);
     };
 
     channel.subscribe("shared-message", handler).then(() => {
@@ -149,7 +173,7 @@ export default function Home() {
       channelRef.current = null;
       ablyRef.current = null;
     };
-  }, [addSharedMessage, room, userName]);
+  }, [handleIncomingSharedMessage, room, userName]);
 
   const sharedContext = useMemo(
     () => sharedMessages.map((message) => `${message.author}: ${message.content}`).join("\n\n"),
@@ -376,7 +400,7 @@ export default function Home() {
   const startSharedChat = async () => {
     setCollaboratorOpen(false);
     setSharedOpen(true);
-    await publishSharedMessage({
+    const message: SharedMessage = {
       id: id("shared-started"),
       room,
       author: userName,
@@ -387,7 +411,8 @@ export default function Home() {
         from: "shared",
         label: "collaboration-started",
       },
-    });
+    };
+    await publishSharedMessage(message);
     showToast(`Shared context branch opened with ${collaboratorName}.`);
   };
 
