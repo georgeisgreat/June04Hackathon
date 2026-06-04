@@ -125,7 +125,11 @@ export default function Home() {
     return () => {
       active = false;
       setRealtimeReady(false);
-      channel.unsubscribe("shared-message", handler).catch(() => undefined);
+      try {
+        channel.unsubscribe("shared-message", handler);
+      } catch {
+        // Ignore Ably cleanup errors during fast refresh / tab changes.
+      }
       client.close();
       channelRef.current = null;
       ablyRef.current = null;
