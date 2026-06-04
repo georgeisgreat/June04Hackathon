@@ -16,6 +16,8 @@ dist/
 
 # Node / Extension build
 node_modules/
+.next/
+out/
 dist/
 .wxt/
 
