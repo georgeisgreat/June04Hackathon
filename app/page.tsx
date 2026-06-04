@@ -7,7 +7,7 @@ import { SharedChat } from "@/components/SharedChat";
 import { Sidebar } from "@/components/Sidebar";
 import { Toast } from "@/components/Toast";
 import { createAblyClient, getChannelName, hasAblyKey } from "@/lib/ably";
-import { seedPrivateMessages, seedSharedMessages } from "@/lib/seed";
+import { getSeedPrivateMessages, seedSharedMessages } from "@/lib/seed";
 import type { PrivateMessage, SharedMessage, ToastState } from "@/lib/types";
 
 function nowLabel() {
@@ -37,7 +37,9 @@ export default function Home() {
   const [userName, setUserName] = useState("Shreyas");
   const collaboratorName = userName.toLowerCase() === "emily" ? "Shreyas" : "Emily";
 
-  const [privateMessages, setPrivateMessages] = useState<PrivateMessage[]>(seedPrivateMessages);
+  const [privateMessages, setPrivateMessages] = useState<PrivateMessage[]>(() =>
+    getSeedPrivateMessages("Shreyas"),
+  );
   const [sharedMessages, setSharedMessages] = useState<SharedMessage[]>(() => seedSharedMessages("demo-room"));
   const [sharedOpen, setSharedOpen] = useState(false);
   const [collaboratorOpen, setCollaboratorOpen] = useState(false);
@@ -114,6 +116,7 @@ export default function Home() {
     const shouldOpenShared = params.get("shared") === "1" || nextUser.toLowerCase() === "emily";
     setRoom(nextRoom);
     setUserName(nextUser);
+    setPrivateMessages(getSeedPrivateMessages(nextUser));
     setSharedOpen(shouldOpenShared);
     setOrigin(window.location.origin);
     setSharedMessages(seedSharedMessages(nextRoom));
