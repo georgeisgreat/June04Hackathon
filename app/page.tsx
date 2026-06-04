@@ -97,6 +97,11 @@ export default function Home() {
       if (!message?.id) return;
       addSharedMessage(message);
 
+      if (message.author !== userName && message.kind !== "system") {
+        setSharedOpen(true);
+        showToast(`${message.author} shared new context.`, "info");
+      }
+
       if (
         message.kind === "system" &&
         message.source?.label === "collaboration-started" &&
